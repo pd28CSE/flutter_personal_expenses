@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
-  NewTransaction({super.key, required this.addNewTransaction});
+  const NewTransaction({super.key, required this.addNewTransaction});
+
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
+
   final amountController = TextEditingController();
+
   FocusNode myFocusNode = FocusNode();
 
-  void addNewValue() {
+  void addNewTransactionValue() {
     String newTitle = titleController.text.trim();
     String newAmount = amountController.text.trim();
     if (newTitle.isNotEmpty &&
         newAmount.isNotEmpty &&
         double.parse(newAmount) > 0) {
-      addNewTransaction(
+      widget.addNewTransaction(
         newTitle,
         double.parse(newAmount),
         DateTime.now(),
@@ -40,6 +48,9 @@ class NewTransaction extends StatelessWidget {
                 myFocusNode.requestFocus();
               },
             ),
+            const SizedBox(
+              height: 10,
+            ),
             TextField(
               focusNode: myFocusNode,
               controller: amountController,
@@ -49,7 +60,7 @@ class NewTransaction extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: addNewValue,
+              onPressed: addNewTransactionValue,
               child: const Text(
                 'Add Transaction',
                 style: TextStyle(

@@ -36,8 +36,6 @@ class TransactionItem extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Container(
-            // height: 60,
-            // width: 70,
             margin: const EdgeInsets.symmetric(
               vertical: 10.0,
               horizontal: 15.0,
@@ -46,7 +44,7 @@ class TransactionItem extends StatelessWidget {
             decoration: BoxDecoration(
               // shape: BoxShape.circle,
               border: Border.all(
-                color: Colors.purple,
+                color: Theme.of(context).primaryColor,
                 width: 2,
               ),
             ),

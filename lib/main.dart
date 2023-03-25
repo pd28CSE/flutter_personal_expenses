@@ -16,7 +16,22 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
+        inputDecorationTheme: const InputDecorationTheme(
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.purple,
+              width: 1.5,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.purple,
+              width: 1.5,
+            ),
+          ),
+        ),
       ),
       home: const MyHomePage(title: 'Flutter App'),
     );
@@ -77,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       price: newPrice,
       dateTime: newDateTime,
     );
-
+    Navigator.of(context).pop();
     setState(() {
       _userTransactions.insert(0, newTransaction);
     });
@@ -87,8 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet(
       context: context,
       builder: (bcntxt) {
-        return NewTransaction(
-          addNewTransaction: addNewTranslation,
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          behavior: HitTestBehavior.opaque,
+          child: NewTransaction(
+            addNewTransaction: addNewTranslation,
+          ),
         );
       },
     );
