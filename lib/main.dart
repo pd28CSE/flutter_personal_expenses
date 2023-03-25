@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import './model/transactions.dart';
 
@@ -47,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(
       id: 'p3',
       title: 'Flutter Book',
-      price: 25.2,
+      price: 2552424.2,
       dateTime: DateTime.now().subtract(const Duration(days: 2)),
     ),
     Transaction(
@@ -89,7 +90,42 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               ...transactions.map((Transaction item) {
                 return Card(
-                  child: Text(item.title),
+                  elevation: 5,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        height: 60,
+                        width: 70,
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 15.0,
+                        ),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.5,
+                          ),
+                        ),
+                        child: Center(
+                          child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Text(
+                              'Tk ${item.price.toStringAsFixed(2)}',
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(item.title),
+                          Text(item.dateTime.toString())
+                        ],
+                      )
+                    ],
+                  ),
                 );
               }).toList(),
             ],
@@ -99,3 +135,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+
+
+
+// ListTile(
+//                     leading: CircleAvatar(
+//                         child: Text(item.price.toStringAsFixed(2))),
+//                     title: Text(item.title),
+//                     subtitle: Text('${item.dateTime.day}'),
+//                     trailing: Text('${item.dateTime.day}'),
+//                   )
