@@ -7,6 +7,20 @@ class NewTransaction extends StatelessWidget {
   final amountController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
 
+  void addNewValue() {
+    String newTitle = titleController.text.trim();
+    String newAmount = amountController.text.trim();
+    if (newTitle.isNotEmpty &&
+        newAmount.isNotEmpty &&
+        double.parse(newAmount) > 0) {
+      addNewTransaction(
+        newTitle,
+        double.parse(newAmount),
+        DateTime.now(),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -35,17 +49,7 @@ class NewTransaction extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () {
-                String newTitle = titleController.text.trim();
-                String newAmount = amountController.text.trim();
-                if (newTitle.isNotEmpty && newAmount.isNotEmpty) {
-                  addNewTransaction(
-                    newTitle,
-                    double.parse(newAmount),
-                    DateTime.now(),
-                  );
-                }
-              },
+              onPressed: addNewValue,
               child: const Text(
                 'Add Transaction',
                 style: TextStyle(
