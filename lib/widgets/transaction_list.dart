@@ -10,15 +10,20 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        ...transactions.map((Transaction item) {
-          return TransactionItem(
-            item: item,
-          );
-        }).toList(),
-      ],
+    return Container(
+      height: 365,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            ...transactions.map((Transaction item) {
+              return TransactionItem(
+                item: item,
+              );
+            }).toList(),
+          ],
+        ),
+      ),
     );
   }
 }

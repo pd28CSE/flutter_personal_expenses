@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NewTransaction extends StatelessWidget {
-  NewTransaction({super.key});
+  final Function addNewTransaction;
+  NewTransaction({super.key, required this.addNewTransaction});
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
@@ -34,7 +35,17 @@ class NewTransaction extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                String newTitle = titleController.text.trim();
+                String newAmount = amountController.text.trim();
+                if (newTitle.isNotEmpty && newAmount.isNotEmpty) {
+                  addNewTransaction(
+                    newTitle,
+                    double.parse(newAmount),
+                    DateTime.now(),
+                  );
+                }
+              },
               child: const Text(
                 'Add Transaction',
                 style: TextStyle(
