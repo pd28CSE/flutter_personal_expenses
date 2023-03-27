@@ -64,6 +64,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((element) {
+      return element.dateTime.isAfter(
+        DateTime.now().subtract(
+          const Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
   final List<Transaction> _userTransactions = [
     Transaction(
       id: 'p1',
@@ -75,12 +85,12 @@ class _MyHomePageState extends State<MyHomePage> {
       id: 'p2',
       title: 'Dart Book',
       price: 25.2,
-      dateTime: DateTime.now(),
+      dateTime: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Transaction(
       id: 'p3',
       title: 'Flutter Book',
-      price: 2552424.2,
+      price: 15.2,
       dateTime: DateTime.now().subtract(const Duration(days: 2)),
     ),
     Transaction(
@@ -155,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 8,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Chart(recentTransactions: _userTransactions),
+                  child: Chart(recentTransactions: _recentTransactions),
                 ),
               ),
             ),
