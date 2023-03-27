@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(
       id: 'p2',
       title: 'Dart Book',
-      price: 242424228285.2,
+      price: 24285.2,
       dateTime: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Transaction(
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(
       id: 'p5',
       title: 'Java Book',
-      price: 25454545.2,
+      price: 25545.2,
       dateTime: DateTime.now().subtract(const Duration(hours: 1)),
     ),
   ];
@@ -175,4 +175,4 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-//97 number
+//106 number
