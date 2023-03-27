@@ -76,33 +76,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Transaction> _userTransactions = [
     Transaction(
-      id: 'p1',
-      title: 'Python Book',
-      price: 25.2,
-      dateTime: DateTime.now(),
-    ),
-    Transaction(
       id: 'p2',
       title: 'Dart Book',
-      price: 25.2,
+      price: 242424228285.2,
       dateTime: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Transaction(
       id: 'p3',
       title: 'Flutter Book',
-      price: 15.2,
+      price: 15424.2,
       dateTime: DateTime.now().subtract(const Duration(days: 2)),
     ),
     Transaction(
       id: 'p4',
       title: 'Java Book',
-      price: 25.2,
+      price: 252.2,
       dateTime: DateTime.now(),
     ),
     Transaction(
       id: 'p5',
       title: 'Java Book',
-      price: 25.2,
+      price: 25454545.2,
       dateTime: DateTime.now().subtract(const Duration(hours: 1)),
     ),
   ];
@@ -159,14 +153,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Container(
+            SizedBox(
               width: double.infinity,
-              child: Card(
-                elevation: 8,
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Chart(recentTransactions: _recentTransactions),
-                ),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Chart(recentTransactions: _recentTransactions),
               ),
             ),
             TransactionList(transactions: _userTransactions)

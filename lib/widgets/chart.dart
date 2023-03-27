@@ -33,20 +33,23 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     groupTransactions;
     return Card(
-      elevation: 6,
+      elevation: 5,
       margin: const EdgeInsets.all(2.0),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             ...groupTransactions.map((data) {
-              return ChartBar(
-                label: data['day'] as String,
-                spendingAmount: data['amount'] as double,
-                spendingPctOfTotal: totalSpending == 0.0
-                    ? 0.0
-                    : (data['amount'] as double) / totalSpending,
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ChartBar(
+                  label: data['day'] as String,
+                  spendingAmount: data['amount'] as double,
+                  spendingPctOfTotal: totalSpending == 0.0
+                      ? 0.0
+                      : (data['amount'] as double) / totalSpending,
+                ),
               );
             }).toList(),
           ],
