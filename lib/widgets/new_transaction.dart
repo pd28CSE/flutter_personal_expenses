@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addNewTransaction;
@@ -10,23 +11,38 @@ class NewTransaction extends StatefulWidget {
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
-
-  final amountController = TextEditingController();
-
+  final _amountController = TextEditingController();
+  DateTime? _selectedDate;
   FocusNode myFocusNode = FocusNode();
 
-  void addNewTransactionValue() {
+  void _addNewTransactionValue() {
     String newTitle = titleController.text.trim();
-    String newAmount = amountController.text.trim();
+    String newAmount = _amountController.text.trim();
     if (newTitle.isNotEmpty &&
         newAmount.isNotEmpty &&
-        double.parse(newAmount) > 0) {
+        double.parse(newAmount) > 0 &&
+        _selectedDate != null) {
       widget.addNewTransaction(
         newTitle,
         double.parse(newAmount),
-        DateTime.now(),
+        _selectedDate,
       );
     }
+  }
+
+  void _presentDatePicher() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+    ).then((selectedDateTime) {
+      if (selectedDateTime != null) {
+        setState(() {
+          _selectedDate = selectedDateTime;
+        });
+      }
+    });
   }
 
   @override
@@ -53,18 +69,38 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             TextField(
               focusNode: myFocusNode,
-              controller: amountController,
+              controller: _amountController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
                 labelText: 'Amount',
               ),
             ),
-            TextButton(
-              onPressed: addNewTransactionValue,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  _selectedDate == null
+                      ? 'No Date Chosen!'
+                      : 'Picked Date: ${DateFormat.yMd().format(_selectedDate as DateTime)}',
+                ),
+                TextButton(
+                  onPressed: _presentDatePicher,
+                  child: Text(
+                    'Choose Date',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            OutlinedButton(
+              onPressed: _addNewTransactionValue,
               child: const Text(
                 'Add Transaction',
                 style: TextStyle(
-                  color: Colors.purple,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             )

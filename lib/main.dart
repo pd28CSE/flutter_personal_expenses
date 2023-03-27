@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         // fontFamily: 'OpenSans',
+        primarySwatch: Colors.purple,
+        accentColor: Colors.amber,
         textTheme: ThemeData.light().textTheme.copyWith(
               displayMedium: const TextStyle(
                 fontFamily: 'OpenSans',
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
             fontFamily: 'OpenSans',
@@ -32,8 +35,7 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
+
         inputDecorationTheme: const InputDecorationTheme(
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
