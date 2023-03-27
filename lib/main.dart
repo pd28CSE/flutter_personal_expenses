@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/transactions.dart';
 import './widgets/transaction_list.dart';
 import './widgets/new_transaction.dart';
+import './widgets/chart.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +17,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        // fontFamily: 'OpenSans',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              displayMedium: const TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
         inputDecorationTheme: const InputDecorationTheme(
@@ -119,7 +135,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
         actions: <Widget>[
           IconButton(
             onPressed: startAddNewTranslation,
@@ -132,11 +151,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              child: const Card(
+              child: Card(
                 elevation: 8,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('CHART'),
+                  child: Chart(recentTransactions: _userTransactions),
                 ),
               ),
             ),
@@ -152,3 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+
+//97 number
