@@ -47,64 +47,71 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              controller: titleController,
-              // autofocus: true,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-              ),
-              onSubmitted: (value) {
-                myFocusNode.requestFocus();
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            TextField(
-              focusNode: myFocusNode,
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Amount',
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  _selectedDate == null
-                      ? 'No Date Chosen!'
-                      : 'Picked Date: ${DateFormat.yMd().format(_selectedDate as DateTime)}',
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                controller: titleController,
+                // autofocus: true,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
                 ),
-                TextButton(
-                  onPressed: _presentDatePicher,
-                  child: Text(
-                    'Choose Date',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
+                onSubmitted: (value) {
+                  myFocusNode.requestFocus();
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                focusNode: myFocusNode,
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Amount',
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    _selectedDate == null
+                        ? 'No Date Chosen!'
+                        : 'Picked Date: ${DateFormat.yMd().format(_selectedDate as DateTime)}',
+                  ),
+                  TextButton(
+                    onPressed: _presentDatePicher,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            OutlinedButton(
-              onPressed: _addNewTransactionValue,
-              child: const Text(
-                'Add Transaction',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                ],
               ),
-            )
-          ],
+              OutlinedButton(
+                onPressed: _addNewTransactionValue,
+                child: const Text(
+                  'Add Transaction',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -16,24 +16,26 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty == true
-        ? Column(
-            children: <Widget>[
-              Text(
-                'No Transaction added yet!',
-                style: Theme.of(context).textTheme.displayMedium,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 200,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  fit: BoxFit.cover,
+        ? LayoutBuilder(builder: (cntxt, constraints) {
+            return Column(
+              children: <Widget>[
+                Text(
+                  'No Transaction added yet!',
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
-              ),
-            ],
-          )
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: constraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            );
+          })
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (cntxt, index) => Card(
@@ -65,15 +67,31 @@ class TransactionList extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    deleteTranslationOnPressed(transactions[index].id);
-                  },
-                  icon: Icon(
-                    Icons.delete,
-                    color: Theme.of(context).errorColor,
-                  ),
-                ),
+                trailing: MediaQuery.of(context).size.width > 560
+                    ? TextButton.icon(
+                        onPressed: () {
+                          deleteTranslationOnPressed(transactions[index].id);
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).errorColor,
+                        ),
+                        label: Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: Theme.of(context).errorColor,
+                          ),
+                        ),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          deleteTranslationOnPressed(transactions[index].id);
+                        },
+                        icon: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).errorColor,
+                        ),
+                      ),
               ),
             ),
           );
@@ -139,3 +157,6 @@ class TransactionList extends StatelessWidget {
 //     );
 //   }
 // }
+
+
+// 129 Num...

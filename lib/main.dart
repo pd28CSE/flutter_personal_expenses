@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/transactions.dart';
 import './widgets/transaction_list.dart';
@@ -6,6 +7,11 @@ import './widgets/new_transaction.dart';
 import './widgets/chart.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
   runApp(const MyApp());
 }
 
@@ -68,6 +74,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _isChartVisible = true;
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((element) {
       return element.dateTime.isAfter(
@@ -128,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (bcntxt) {
         return GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            // Navigator.of(context).pop();
           },
           behavior: HitTestBehavior.opaque,
           child: NewTransaction(
@@ -146,6 +153,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
         widget.title,
@@ -158,30 +167,59 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
+
+    final transactionList = SizedBox(
+      height: (MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top -
+              appBar.preferredSize.height) *
+          0.75,
+      child: TransactionList(
+        transactions: _userTransactions,
+        deleteTranslationOnPressed: _deleteTranslation,
+      ),
+    );
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      appBar.preferredSize.height) *
-                  0.25,
-              child: Chart(
-                recentTransactions: _recentTransactions,
+            if (isLandscape == true)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(_isChartVisible == true ? 'Hide Chart' : 'Show Chart'),
+                  Switch(
+                      value: _isChartVisible,
+                      onChanged: (value) {
+                        setState(() {
+                          _isChartVisible = value;
+                        });
+                      }),
+                ],
               ),
-            ),
-            SizedBox(
-              height: (MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      appBar.preferredSize.height) *
-                  0.75,
-              child: TransactionList(
-                transactions: _userTransactions,
-                deleteTranslationOnPressed: _deleteTranslation,
+            if (isLandscape == false)
+              SizedBox(
+                height: (MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.top -
+                        appBar.preferredSize.height) *
+                    0.25,
+                child: Chart(
+                  recentTransactions: _recentTransactions,
+                ),
               ),
-            )
+            if (isLandscape == false) transactionList,
+            if (isLandscape == true)
+              _isChartVisible == true
+                  ? SizedBox(
+                      height: (MediaQuery.of(context).size.height -
+                              MediaQuery.of(context).padding.top -
+                              appBar.preferredSize.height) *
+                          0.6,
+                      child: Chart(
+                        recentTransactions: _recentTransactions,
+                      ),
+                    )
+                  : transactionList
           ],
         ),
       ),
