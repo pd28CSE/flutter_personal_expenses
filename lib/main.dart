@@ -19,6 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         // fontFamily: 'OpenSans',
         primarySwatch: Colors.purple,
+        splashColor:
+            Colors.yellow, // Icon button long-Press effect "Delete Button"
         accentColor: Colors.amber,
         textTheme: ThemeData.light().textTheme.copyWith(
               displayMedium: const TextStyle(
@@ -144,32 +146,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.title,
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: startAddNewTranslation,
-            icon: const Icon(Icons.add),
-          )
-        ],
+    final appBar = AppBar(
+      title: Text(
+        widget.title,
+        style: Theme.of(context).appBarTheme.titleTextStyle,
       ),
+      actions: <Widget>[
+        IconButton(
+          onPressed: startAddNewTranslation,
+          icon: const Icon(Icons.add),
+        )
+      ],
+    );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Chart(recentTransactions: _recentTransactions),
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBar.preferredSize.height) *
+                  0.25,
+              child: Chart(
+                recentTransactions: _recentTransactions,
               ),
             ),
-            TransactionList(
-              transactions: _userTransactions,
-              deleteTranslation: _deleteTranslation,
+            SizedBox(
+              height: (MediaQuery.of(context).size.height -
+                      MediaQuery.of(context).padding.top -
+                      appBar.preferredSize.height) *
+                  0.75,
+              child: TransactionList(
+                transactions: _userTransactions,
+                deleteTranslationOnPressed: _deleteTranslation,
+              ),
             )
           ],
         ),
@@ -182,7 +193,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-
-
-//106 number

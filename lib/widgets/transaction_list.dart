@@ -5,81 +5,78 @@ import '../models/transactions.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  final Function deleteTranslation;
+  final Function deleteTranslationOnPressed;
 
   const TransactionList({
     super.key,
     required this.transactions,
-    required this.deleteTranslation,
+    required this.deleteTranslationOnPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 365,
-      child: transactions.isEmpty == true
-          ? Column(
-              children: <Widget>[
-                Text(
-                  'No Transaction added yet!',
-                  style: Theme.of(context).textTheme.displayMedium,
+    return transactions.isEmpty == true
+        ? Column(
+            children: <Widget>[
+              Text(
+                'No Transaction added yet!',
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 200,
+                child: Image.asset(
+                  'assets/images/waiting.png',
+                  fit: BoxFit.cover,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 200,
-                  child: Image.asset(
-                    'assets/images/waiting.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            )
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (cntxt, index) => Card(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 5,
-                  horizontal: 8,
-                ),
-                elevation: 5,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: FittedBox(
-                        child: Text(
-                          transactions[index].price.toStringAsFixed(0),
-                        ),
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: (cntxt, index) => Card(
+              margin: const EdgeInsets.symmetric(
+                vertical: 5,
+                horizontal: 8,
+              ),
+              elevation: 5,
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 30,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: FittedBox(
+                      child: Text(
+                        transactions[index].price.toStringAsFixed(0),
                       ),
                     ),
                   ),
-                  title: Text(
-                    transactions[index].title,
-                    style: Theme.of(context).textTheme.displayMedium,
+                ),
+                title: Text(
+                  transactions[index].title,
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+                subtitle: Text(
+                  DateFormat.yMMMd().format(transactions[index].dateTime),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
                   ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(transactions[index].dateTime),
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {
-                      deleteTranslation(transactions[index].id);
-                    },
-                    icon: Icon(
-                      Icons.delete,
-                      color: Theme.of(context).errorColor,
-                    ),
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    deleteTranslationOnPressed(transactions[index].id);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).errorColor,
                   ),
                 ),
               ),
             ),
-    );
+          );
   }
 }
 
