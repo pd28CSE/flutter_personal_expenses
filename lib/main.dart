@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -153,8 +155,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     final appBar = AppBar(
       title: Text(
         widget.title,
@@ -169,8 +171,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     final transactionList = SizedBox(
-      height: (MediaQuery.of(context).size.height -
-              MediaQuery.of(context).padding.top -
+      height: (mediaQuery.size.height -
+              mediaQuery.padding.top -
               appBar.preferredSize.height) *
           0.75,
       child: TransactionList(
@@ -188,19 +190,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(_isChartVisible == true ? 'Hide Chart' : 'Show Chart'),
-                  Switch(
-                      value: _isChartVisible,
-                      onChanged: (value) {
-                        setState(() {
-                          _isChartVisible = value;
-                        });
-                      }),
+                  Transform.scale(
+                    scale: 1.2,
+                    child: Switch.adaptive(
+                        activeColor: Theme.of(context).primaryColor,
+                        inactiveTrackColor: Colors.amber,
+                        value: _isChartVisible,
+                        onChanged: (value) {
+                          setState(() {
+                            _isChartVisible = value;
+                          });
+                        }),
+                  ),
                 ],
               ),
             if (isLandscape == false)
               SizedBox(
-                height: (MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.top -
+                height: (mediaQuery.size.height -
+                        mediaQuery.padding.top -
                         appBar.preferredSize.height) *
                     0.25,
                 child: Chart(
@@ -211,8 +218,8 @@ class _MyHomePageState extends State<MyHomePage> {
             if (isLandscape == true)
               _isChartVisible == true
                   ? SizedBox(
-                      height: (MediaQuery.of(context).size.height -
-                              MediaQuery.of(context).padding.top -
+                      height: (mediaQuery.size.height -
+                              mediaQuery.padding.top -
                               appBar.preferredSize.height) *
                           0.6,
                       child: Chart(
@@ -224,10 +231,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: startAddNewTranslation,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: Platform.isIOS == true
+          ? const SizedBox()
+          : FloatingActionButton(
+              onPressed: startAddNewTranslation,
+              child: const Icon(Icons.add),
+            ),
     );
   }
 }
