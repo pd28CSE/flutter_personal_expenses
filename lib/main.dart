@@ -157,7 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final appBar = AppBar(
+    final AppBar appBar = AppBar(
       title: Text(
         widget.title,
         style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
         IconButton(
           onPressed: startAddNewTranslation,
           icon: const Icon(Icons.add),
-        )
+        ),
       ],
     );
 
