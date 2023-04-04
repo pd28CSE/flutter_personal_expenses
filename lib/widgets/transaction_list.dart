@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import './transaction_item.dart';
 import '../models/transactions.dart';
 
 class TransactionList extends StatelessWidget {
@@ -38,65 +39,15 @@ class TransactionList extends StatelessWidget {
           })
         : ListView.builder(
             itemCount: transactions.length,
-            itemBuilder: (cntxt, index) => Card(
-              margin: const EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 8,
-              ),
-              elevation: 5,
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 30,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: FittedBox(
-                      child: Text(
-                        transactions[index].price.toStringAsFixed(0),
-                      ),
-                    ),
-                  ),
-                ),
-                title: Text(
-                  transactions[index].title,
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
-                subtitle: Text(
-                  DateFormat.yMMMd().format(transactions[index].dateTime),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  ),
-                ),
-                trailing: MediaQuery.of(context).size.width > 560
-                    ? TextButton.icon(
-                        onPressed: () {
-                          deleteTranslationOnPressed(transactions[index].id);
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: Theme.of(context).errorColor,
-                        ),
-                        label: Text(
-                          'Delete',
-                          style: TextStyle(
-                            color: Theme.of(context).errorColor,
-                          ),
-                        ),
-                      )
-                    : IconButton(
-                        onPressed: () {
-                          deleteTranslationOnPressed(transactions[index].id);
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: Theme.of(context).errorColor,
-                        ),
-                      ),
-              ),
+            itemBuilder: (cntxt, index) => TransactionItem(
+              transaction: transactions[index],
+              deleteTranslationOnPressed: deleteTranslationOnPressed,
             ),
           );
   }
 }
+
+
 
 
 // // custom ListTile()
