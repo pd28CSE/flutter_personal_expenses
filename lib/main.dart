@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Expenses App',
       theme: ThemeData(
         // fontFamily: 'OpenSans',
         primarySwatch: Colors.purple,
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MyHomePage(title: 'Flutter App'),
+      home: const MyHomePage(title: 'Expenses App'),
     );
   }
 }
@@ -148,16 +148,62 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void _deleteTranslation(String id) {
-    _userTransactions.removeWhere((element) => element.id == id);
-    setState(() {});
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget transactionList) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(_isChartVisible == true ? 'Hide Chart' : 'Show Chart'),
+          Transform.scale(
+            scale: 1.2,
+            child: Switch.adaptive(
+                activeColor: Theme.of(context).primaryColor,
+                inactiveTrackColor: Colors.amber,
+                value: _isChartVisible,
+                onChanged: (value) {
+                  setState(() {
+                    _isChartVisible = value;
+                  });
+                }),
+          ),
+        ],
+      ),
+      _isChartVisible == true
+          ? SizedBox(
+              height: (mediaQuery.size.height -
+                      mediaQuery.padding.top -
+                      appBar.preferredSize.height) *
+                  0.6,
+              child: Chart(
+                recentTransactions: _recentTransactions,
+              ),
+            )
+          : transactionList
+    ];
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final AppBar appBar = AppBar(
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    AppBar appBar,
+    Widget transactionList,
+  ) {
+    return [
+      SizedBox(
+        height: (mediaQuery.size.height -
+                mediaQuery.padding.top -
+                appBar.preferredSize.height) *
+            0.25,
+        child: Chart(
+          recentTransactions: _recentTransactions,
+        ),
+      ),
+      transactionList,
+    ];
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
       title: Text(
         widget.title,
         style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -169,6 +215,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ],
     );
+  }
+
+  void _deleteTranslation(String id) {
+    _userTransactions.removeWhere((element) => element.id == id);
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final AppBar appBar = _buildAppBar();
 
     final transactionList = SizedBox(
       height: (mediaQuery.size.height -
@@ -186,47 +244,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             if (isLandscape == true)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(_isChartVisible == true ? 'Hide Chart' : 'Show Chart'),
-                  Transform.scale(
-                    scale: 1.2,
-                    child: Switch.adaptive(
-                        activeColor: Theme.of(context).primaryColor,
-                        inactiveTrackColor: Colors.amber,
-                        value: _isChartVisible,
-                        onChanged: (value) {
-                          setState(() {
-                            _isChartVisible = value;
-                          });
-                        }),
-                  ),
-                ],
-              ),
+              ..._buildLandscapeContent(mediaQuery, appBar, transactionList),
             if (isLandscape == false)
-              SizedBox(
-                height: (mediaQuery.size.height -
-                        mediaQuery.padding.top -
-                        appBar.preferredSize.height) *
-                    0.25,
-                child: Chart(
-                  recentTransactions: _recentTransactions,
-                ),
-              ),
-            if (isLandscape == false) transactionList,
-            if (isLandscape == true)
-              _isChartVisible == true
-                  ? SizedBox(
-                      height: (mediaQuery.size.height -
-                              mediaQuery.padding.top -
-                              appBar.preferredSize.height) *
-                          0.6,
-                      child: Chart(
-                        recentTransactions: _recentTransactions,
-                      ),
-                    )
-                  : transactionList
+              ..._buildPortraitContent(mediaQuery, appBar, transactionList),
           ],
         ),
       ),
