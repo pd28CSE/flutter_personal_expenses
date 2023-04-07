@@ -40,6 +40,7 @@ class TransactionList extends StatelessWidget {
         : ListView.builder(
             itemCount: transactions.length,
             itemBuilder: (cntxt, index) => TransactionItem(
+              key: ValueKey(transactions[index].id),
               transaction: transactions[index],
               deleteTranslationOnPressed: deleteTranslationOnPressed,
             ),
